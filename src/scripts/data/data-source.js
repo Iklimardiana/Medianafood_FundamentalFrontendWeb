@@ -1,72 +1,84 @@
 
-const baseUrl = 'https://www.themealdb.com/api/json/v1/1';
 class DataSource{
-    static getFood = () => {
-        fetch(`${baseUrl}/categories.php`)
+
+    static getFoodByKeyword(keyword) {
+      return fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${keyword}`)
         .then(response => {
-            return response.json();
+          return response.json();
         })
         .then(responseJson => {
-            if (responseJson.error) {
-                showResponseMessage(responseJson.message);
-            } else {
-                renderFoodCategory(responseJson.categories);
-                getFoodsByCategory('beef');
-            }
+          console.log('Response from API:', responseJson);
+          if (responseJson.error) {
+              return Promise.reject(`${keyword} is not found`);
+          } else {
+              return Promise.resolve(responseJson.meals);
+          }
+        }) .catch(error => {
+          console.error('Error while searching for food:', error);
         })
-        .catch(error => {
-            showResponseMessage(error);
+  };
+
+    static getDetailFoods(id) {
+      return fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+        .then(response => {
+          return response.json();
+        })
+        .then(responseJson => {
+          if (responseJson.error) {
+            return Promise.reject('an error occurred');
+          } else {
+            return Promise.resolve(responseJson.meals[0]);
+          }
         });
     };
 
-    static getFoodsByCategory = (category) => {
-        fetch(`${baseUrl}/filter.php?c=${category}`)
-          .then(response => {
-            return response.json();
-          })
-          .then(responseJson => {
-            if (responseJson.error) {
-              showResponseMessage(responseJson.message);
-            } else {
-              renderFoodList(responseJson.meals);
-            }
-          })
-          .catch(error => {
-            showResponseMessage(error);
-          });
-    };
+    static getDefaultFoods() {
+      return fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=beef')
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.error) {
+            return Promise.reject('an error occurred');
+          } else {
+            return Promise.resolve(responseJson.meals);
+          }
+        });
+    }
 
-    static getDetailFoods = (id) => {
-        fetch(`${baseUrl}/lookup.php?i=${id}`)
-            .then(response => {
-              return response.json();
-            })
-            .then(responseJson => {
-              if (responseJson.error) {
-                showResponseMessage(responseJson.message);
-              } else {
-                renderDetailFood(responseJson.meals[0]);
-              }
-            })
-            .catch(error => {
-              showResponseMessage(error);
-            });
-    };
-
-    static getFoodsByKeyword = (keyword) => {
-        fetch(`${baseUrl}/search.php?s=${keyword}`)
-          .then(response => {
-            return response.json();
-          })
-          .then(responseJson => {
-            if (responseJson.error) {
-              showResponseMessage(responseJson.message);
-            } else {
-              renderFoodList(responseJson.meals);
-            }
-          })
-          .catch(error => {
-            showResponseMessage(error);
-          });
-    };
 }
+
+export default DataSource;
+
+// static getCategoryFood = () => {
+    //     fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
+    //     .then(response => {
+    //         return response.json();
+    //     })
+    //     .then(responseJson => {
+    //         if (responseJson.error) {
+    //           return Promise.reject(responseJson.error)
+    //         } else {
+    //           return Promise.resolve(responseJson.categories);
+    //             DataSource.getFoodsByCategory('beef');
+    //         }
+    //     })
+    //     .catch(error => {
+    //         showResponseMessage(error);
+    //     });
+    // };
+
+  //   static getFoodsByCategory = (category) => {
+  //     fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+  //       .then(response => {
+  //         return response.json();
+  //       })
+  //       .then(responseJson => {
+  //         if (responseJson.error) {
+  //           showResponseMessage(responseJson.message);
+  //         } else {
+  //           renderFoodList(responseJson.meals);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         showResponseMessage(error);
+  //       });
+  // };
