@@ -3,5 +3,4 @@ import main from './scripts/main';
 import './styles/main.css';
 
 import 'bootstrap';
-
 main();

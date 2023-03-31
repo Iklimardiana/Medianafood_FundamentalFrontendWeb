@@ -1,28 +1,33 @@
 'use strict'
 
-// import '../component/search-bar.js';
-
 import DataSource from './data/data-source.js'
+import './component/food-list.js';
+import './component/food-detail.js';
+
 
 function main() {
-    const DetailFoodElement = document.querySelector('.food-detail');
     const searchForm = document.querySelector('.search-form');
     const searchContainerElement = document.querySelector('.search-container');
-    const FoodListElement = document.querySelector('.Food-list')
-
+    const FoodListElement = document.querySelector('food-list');
+    const DetailFoodElement = document.querySelector('food-detail');
 
     searchForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const keyword = document.querySelector('.search-input').value;
-      
+    
       try {
         const result = await DataSource.getFoodByKeyword(keyword);
-        renderFoodList(result);
-        searchForm.reset()
+        if (result && result.length > 0) {
+          FoodListElement.food = result;
+          searchForm.reset();
+        } else {
+          fallbackResult('No food data found');
+        }
       } catch (message) {
-        fallbackResult(message)
+        fallbackResult(message);
       }
     });
+    
 
     const backToFoodList = () => {
       searchContainerElement.style.display = 'block';
@@ -31,6 +36,7 @@ function main() {
     };
 
     const renderDetailFood = (food) => {
+      DetailFoodElement.innerHTML=''
       searchContainerElement.style.display = 'none';
       DetailFoodElement.style.display = 'block';
 
@@ -58,69 +64,10 @@ function main() {
       });
     };
 
-    const detailFood = async(id) => {
-      FoodListElement.style.display = 'none';
-      DetailFoodElement.style.display = 'block';
-      try {
-        const result = await DataSource.getDetailFoods(id);
-        renderDetailFood(result);
-      } catch (message) {
-        fallbackResult('An Error Occured')
-      }
-    }
-
-    const renderFoodList = (foods) => {
-      if (foods && foods.length > 0) {
-        FoodListElement.innerHTML = '';
-        const numCols = 4; // jumlah kolom yang ingin ditampilkan
-        let row = document.createElement('div');
-        row.classList.add('row');
-        foods.forEach((food, index) => {
-          if (index % numCols === 0) {
-            FoodListElement.appendChild(row);
-            row = document.createElement('div');
-            row.classList.add('row');
-          }
-          const foodItem = `
-            <div class="col-lg-${12/numCols} col-md-${12/numCols} col-sm-6 mb-4">
-              <div class="card">
-                <img src="${food.strMealThumb}" class="card-img-top" alt="${food.strMeal}">
-                <div class="card-body">
-                  <h5 class="card-title">${food.strMeal}</h5>
-                  <button data-id="${food.idMeal}" class="btn btn-dark detail-btn">Detail</button>
-                </div>
-              </div>
-            </div>
-          `;
-          row.innerHTML += foodItem;
-        });
-        FoodListElement.appendChild(row);
-    
-        const detailButtons = document.querySelectorAll('.detail-btn');
-        detailButtons.forEach(button => {
-          button.addEventListener('click', (event) => {
-            const mealId = event.target.getAttribute('data-id');
-            event.preventDefault();
-            detailFood(mealId);
-          });
-        });
-      } else {
-        fallbackResult('No food data found');
-      }
-    };
-    
-  
     const fallbackResult = message => {
       FoodListElement.innerHTML = '';
-      FoodListElement.innerHTML += `<h2 class="placeholder">${message}</h2>`;
+      FoodListElement.innerHTML += message;
     };
-
-    // menampilkan default food list
-    DataSource.getDefaultFoods()
-    .then(renderFoodList)
-    .catch(fallbackResult);    
-
-
   }
 
   export default main;
