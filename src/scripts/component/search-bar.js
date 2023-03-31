@@ -1,3 +1,5 @@
+
+
 class SearchBar extends HTMLElement {
 
     connectedCallback() {
@@ -15,6 +17,17 @@ class SearchBar extends HTMLElement {
 
     render() {
         this.innerHTML = `
+
+        <style>
+            .search-container .form-group{
+                background-color: black;
+            }
+
+            button{
+                background-color: blue;
+            }
+        </style>
+
         <div class="search-container form-group">
             <span class="fa fa-search placeholder-icon"></span>
             <input placeholder="Search receipes and more..." class="form-control mr-sm-2" id="searchElement" type="search">
