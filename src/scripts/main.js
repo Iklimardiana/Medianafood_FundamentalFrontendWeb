@@ -1,172 +1,126 @@
 'use strict'
 
+// import '../component/search-bar.js';
+
 import DataSource from './data/data-source.js'
 
 function main() {
-    const baseUrl = 'https://www.themealdb.com/api/json/v1/1';
-    const FoodCategoryElement = document.querySelector('.Food-category');
-    const container = document.querySelector('.container');
     const DetailFoodElement = document.querySelector('.food-detail');
     const searchForm = document.querySelector('.search-form');
-    const FoodsOfCategoryElement = document.querySelector('.FoodsOfCategory');
-    
-    const showResponseMessage = (message = 'Check your internet connection') => {
-        FoodCategoryElement.innerHTML = `<p>${message}</p>`;
-    };
+    const searchContainerElement = document.querySelector('.search-container');
+    const FoodListElement = document.querySelector('.Food-list')
 
-    const closeDetail = () =>{
-      DetailFoodElement.innerHTML = '';
-      FoodsOfCategoryElement.style.display = 'block';
-    }
 
-    searchForm.addEventListener('submit', (event) => {
+    searchForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const keyword = document.querySelector('.search-input').value;
-      getFoodsByKeyword(keyword);
-    });
-    
-
-    const renderFoodCategory = (foods) => {
-
-        FoodCategoryElement.innerHTML='';
-
-        foods.forEach((food) => {
-          const foodItem = `
-            <li>
-              <h3 data-kategori="${food.strCategory}">${food.strCategory}</h3>
-            </li>
-          `;
-          FoodCategoryElement.innerHTML += foodItem;
-        });
       
-        const clickedCategory = document.querySelectorAll('.Food-category h3');
-        clickedCategory.forEach((button) => {
-          button.addEventListener('click', (event) => {
-            const categoryName = event.target.getAttribute('data-kategori');
-            closeDetail();
-            event.preventDefault();
-            getFoodsByCategory(categoryName);
-          });
-        });
-    };
+      try {
+        const result = await DataSource.getFoodByKeyword(keyword);
+        renderFoodList(result);
+        searchForm.reset()
+      } catch (message) {
+        fallbackResult(message)
+      }
+    });
 
-    const getFood = () => {
-        fetch(`${baseUrl}/categories.php`)
-        .then(response => {
-            return response.json();
-        })
-        .then(responseJson => {
-            if (responseJson.error) {
-                showResponseMessage(responseJson.message);
-            } else {
-                renderFoodCategory(responseJson.categories);
-                getFoodsByCategory('beef');
-            }
-        })
-        .catch(error => {
-            showResponseMessage(error);
-        });
-    };
-
-    const getFoodsByCategory = (category) => {
-        fetch(`${baseUrl}/filter.php?c=${category}`)
-          .then(response => {
-            return response.json();
-          })
-          .then(responseJson => {
-            if (responseJson.error) {
-              showResponseMessage(responseJson.message);
-            } else {
-              renderFoodList(responseJson.meals);
-            }
-          })
-          .catch(error => {
-            showResponseMessage(error);
-          });
-    };
-
-    const getDetailFoods = (id) => {
-      fetch(`${baseUrl}/lookup.php?i=${id}`)
-          .then(response => {
-            return response.json();
-          })
-          .then(responseJson => {
-            if (responseJson.error) {
-              showResponseMessage(responseJson.message);
-            } else {
-              renderDetailFood(responseJson.meals[0]);
-            }
-          })
-          .catch(error => {
-            showResponseMessage(error);
-          });
-    };
-
-    const getFoodsByKeyword = (keyword) => {
-      fetch(`${baseUrl}/search.php?s=${keyword}`)
-        .then(response => {
-          return response.json();
-        })
-        .then(responseJson => {
-          if (responseJson.error) {
-            showResponseMessage(responseJson.message);
-          } else {
-            renderFoodList(responseJson.meals);
-          }
-        })
-        .catch(error => {
-          showResponseMessage(error);
-        });
+    const backToFoodList = () => {
+      searchContainerElement.style.display = 'block';
+      DetailFoodElement.style.display = 'none';
+      FoodListElement.style.display = 'block';
     };
 
     const renderDetailFood = (food) => {
-      // FoodCategoryElement.innerHTML = '';
-      FoodCategoryElement.style.display = 'block';
+      searchContainerElement.style.display = 'none';
       DetailFoodElement.style.display = 'block';
-      FoodsOfCategoryElement.style.display = 'none';
 
       const detailContent = `
-        <img src="${food.strMealThumb}" alt="${food.strMeal}">
-        <h1>${food.strMeal}</h1>
-        <h2>Category: ${food.strCategory}</h2>
-        <h2>Area: ${food.strArea}</h2>
-        <p>${food.strInstructions}</p>
+        <div class="card" style="width: 100%;">
+          <div class="card-wrapper">
+            <div class="card-body">
+              <h1 class="card-title">${food.strMeal}</h1>
+              <h5 class="card-title">Category: ${food.strCategory}</h4>
+              <h5 class="card-title">Area: ${food.strArea}</h4>
+              <p class="card-text">${food.strInstructions}</p>
+            </div>
+            <img id="detail-food-img" src="${food.strMealThumb}" style="width:30%; alt="${food.strMeal}">
+          </div>
+
+          <button class="btn btn-dark mb-4" id="back-btn">Back</button>
+        </div>
       `;
       DetailFoodElement.innerHTML = detailContent;
+
+      const backButton = document.getElementById('back-btn');
+      backButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        backToFoodList();
+      });
+    };
+
+    const detailFood = async(id) => {
+      FoodListElement.style.display = 'none';
+      DetailFoodElement.style.display = 'block';
+      try {
+        const result = await DataSource.getDetailFoods(id);
+        renderDetailFood(result);
+      } catch (message) {
+        fallbackResult('An Error Occured')
+      }
+    }
+
+    const renderFoodList = (foods) => {
+      if (foods && foods.length > 0) {
+        FoodListElement.innerHTML = '';
+        const numCols = 4; // jumlah kolom yang ingin ditampilkan
+        let row = document.createElement('div');
+        row.classList.add('row');
+        foods.forEach((food, index) => {
+          if (index % numCols === 0) {
+            FoodListElement.appendChild(row);
+            row = document.createElement('div');
+            row.classList.add('row');
+          }
+          const foodItem = `
+            <div class="col-lg-${12/numCols} col-md-${12/numCols} col-sm-6 mb-4">
+              <div class="card">
+                <img src="${food.strMealThumb}" class="card-img-top" alt="${food.strMeal}">
+                <div class="card-body">
+                  <h5 class="card-title">${food.strMeal}</h5>
+                  <button data-id="${food.idMeal}" class="btn btn-dark detail-btn">Detail</button>
+                </div>
+              </div>
+            </div>
+          `;
+          row.innerHTML += foodItem;
+        });
+        FoodListElement.appendChild(row);
+    
+        const detailButtons = document.querySelectorAll('.detail-btn');
+        detailButtons.forEach(button => {
+          button.addEventListener('click', (event) => {
+            const mealId = event.target.getAttribute('data-id');
+            event.preventDefault();
+            detailFood(mealId);
+          });
+        });
+      } else {
+        fallbackResult('No food data found');
+      }
     };
     
-
-    // <img src="${food.strMealThumb}" alt="${food.strMeal}"></img>
-    const renderFoodList = (foods) => {
-        FoodsOfCategoryElement.innerHTML = '';
-
-        if (foods && foods.length > 0) {
-          foods.forEach(food => {
-            const foodItem = `
-              <li>
-                <h3>${food.strMeal}</h3>
-                <button data-id="${food.idMeal}" class="detail-btn">Detail</button>
-              </li>
-            `;
-            FoodsOfCategoryElement.innerHTML += foodItem;
-          });
-
-          const detailButtons = document.querySelectorAll('.detail-btn');
-          detailButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-              const mealId = event.target.getAttribute('data-id');
-              event.preventDefault();
-              getDetailFoods(mealId);
-            });
-          });
-        } else {
-            showResponseMessage('No food data found');
-        }
+  
+    const fallbackResult = message => {
+      FoodListElement.innerHTML = '';
+      FoodListElement.innerHTML += `<h2 class="placeholder">${message}</h2>`;
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
-        getFood();
-    });
-}
+    // menampilkan default food list
+    DataSource.getDefaultFoods()
+    .then(renderFoodList)
+    .catch(fallbackResult);    
 
-export default main;
+
+  }
+
+  export default main;
