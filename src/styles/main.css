@@ -1,0 +1,23 @@
+body{
+    background-color: antiquewhite;
+    padding: 20px;
+}
+
+.search-container{
+    background-color: aqua;
+}
+
+#detail-food-img{
+    margin: 20px;
+}
+
+.card .card-wrapper{
+    display: flex;
+}
+
+#back-btn {
+    display: block;
+    margin: auto;
+    width: 10%;
+}
+
