@@ -66,6 +66,12 @@ class FoodList extends HTMLElement {
                             background-color: #FFFBEB;
                             color: #495579;
                         }
+
+                        @media screen and (max-width:472px){
+                            .detail-btn {
+                                font-size: 0.7rem;
+                            }
+                        }
                         
                     </style>
 
@@ -99,7 +105,7 @@ class FoodList extends HTMLElement {
 
             const FoodListElement = document.querySelector('food-list');
             const DetailFoodElement = document.querySelector('food-detail');
-            const searchContainerElement = document.querySelector('.search-container')
+            const searchContainerElement = document.querySelector('.search-container');
 
             const detailFood = async(id) => {
                 DetailFoodElement.innerHTML = '';

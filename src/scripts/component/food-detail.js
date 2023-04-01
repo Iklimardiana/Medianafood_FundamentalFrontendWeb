@@ -12,8 +12,6 @@ class FoodDetail extends HTMLElement{
 
     render(){
         if (this._food) {
-            // this.innerHTML = `<p>No food data found</p>`;
-            // return;
             this.innerHTML = `
             <style>
                 
@@ -36,31 +34,46 @@ class FoodDetail extends HTMLElement{
                 }
 
                 .card-title{
-                    text-align: center;
+                    text-align: left;
                 }
 
                 .container{
                     background-color: #495579;
                     color: #FFFBEB;
+                    width: 65%;
                 }
 
                 .img-fluid{
                     border: solid 1.5px #FFFBEB;
+                    width: 40%;
+                    margin: auto;
+                    padding:0;
+                }
+
+                #title{
+                    text-align:center;
+                }
+
+                @media screen and (max-width:643px){
+                    .container{
+                        width: 100%;
+                        font-size: 0.7rem;
+                    }
+
+                    #back-btn {
+                        font-size: 0.7rem;
+                    }
                 }
             
             </style>
 
-            <div class="container p-4 rounded" >
+            <div class="container py-1 px-4 rounded" >
               <div class="row">
-                <div class="col-md-6 col-lg-4">
-                  <img class="img-fluid rounded shadow" src="${this._food.strMealThumb}" alt="${this._food.strMeal}">
-                </div>
-                <div class="col-md-6 col-sm-12 col-lg-8">
-                  <h1 class="card-title">${this._food.strMeal}</h1>
-                  <h5 class="card-title">Category: ${this._food.strCategory}</h5>
-                  <h5 class="card-title">Area: ${this._food.strArea}</h5>
-                  <p class="card-text pt-2">${this._food.strInstructions}</p>
-                </div>
+                <h2 class="card-title mb-2" id="title">${this._food.strMeal}</h2>
+                <img class="img-fluid rounded shadow mb-2" src="${this._food.strMealThumb}" alt="${this._food.strMeal}">
+                <h5 class="card-title">Category: ${this._food.strCategory}</h5>
+                <h5 class="card-title">Area: ${this._food.strArea}</h5>
+                <p class="card-text pt-2">${this._food.strInstructions}</p>
               </div>
               <div class="button-container mt-4">
                 <button class="btn btn-light fw-semibold mb-4" id="back-btn">Back</button>
@@ -79,6 +92,8 @@ class FoodDetail extends HTMLElement{
                 searchContainerElement.style.display = 'block';
                 DetailFoodElement.style.display = 'none';
                 FoodListElement.style.display = 'block';
+                $(".card").hide();
+                $(".card").fadeIn(1000);
             };
 
             const backButton = this.querySelector('#back-btn');
