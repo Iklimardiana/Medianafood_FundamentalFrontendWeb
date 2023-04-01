@@ -1,23 +1,21 @@
 body{
     background-color: antiquewhite;
-    padding: 20px;
+    margin: 0;
 }
 
-.search-container{
+/* .search-container{
     background-color: aqua;
+} */
+
+.header-nav{
+    background-color: aquamarine;
+    text-align: center;
 }
 
-#detail-food-img{
-    margin: 20px;
+footer{
+    text-align: center;
 }
 
-.card .card-wrapper{
-    display: flex;
-}
-
-#back-btn {
-    display: block;
-    margin: auto;
-    width: 10%;
-}
-
+/* .container-foodlist{
+    background-color: rgb(183, 148, 106);
+} */

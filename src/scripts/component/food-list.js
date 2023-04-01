@@ -45,11 +45,25 @@ class FoodList extends HTMLElement {
                         
                         .card-body{
                             text-align: center;
+                            height: 100%;
                         }
+
+                        .row {
+                            display: flex;
+                            flex-wrap: wrap;
+                        }
+                        
+                        .card {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            height: 100%;
+                        }
+                        
                     </style>
 
                     <div class="col-lg-${12 / numCols} col-md-${12 / numCols} col-sm-6 mb-4">
-                        <div class="card">
+                        <div class="card shadow">
                             <img src="${food.strMealThumb}" class="card-img-top" alt="${food.strMeal}">
                             <div class="card-body">
                                 <h5 class="card-title">${food.strMeal}</h5>
@@ -65,8 +79,11 @@ class FoodList extends HTMLElement {
 
             const FoodListElement = document.querySelector('food-list');
             const DetailFoodElement = document.querySelector('food-detail');
+            const searchContainerElement = document.querySelector('.search-container')
 
             const detailFood = async(id) => {
+                DetailFoodElement.innerHTML = '';
+                searchContainerElement.style.display = 'none'
                 FoodListElement.style.display = 'none';
                 DetailFoodElement.style.display = 'block';
                 try {
@@ -89,7 +106,9 @@ class FoodList extends HTMLElement {
         } else {
             fallbackResult('No food data found');
         }
+        
     }
+      
 
     connectedCallback() {
         this.render();
