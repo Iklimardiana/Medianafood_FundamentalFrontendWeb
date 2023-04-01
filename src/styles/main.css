@@ -1,0 +1,20 @@
+body{
+    background-color: #FFFBEB;
+    margin: 0;
+}
+
+.header-nav{
+    background-color: #495579;
+    text-align: center;
+    color: #FFFBEB;
+}
+
+footer{
+    text-align: center;
+}
+
+.btn-dark{
+    background-color: #495579;
+    color: #FFFBEB;
+    border: none;
+}
