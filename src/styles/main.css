@@ -1,0 +1,21 @@
+body{
+    background-color: antiquewhite;
+    margin: 0;
+}
+
+/* .search-container{
+    background-color: aqua;
+} */
+
+.header-nav{
+    background-color: aquamarine;
+    text-align: center;
+}
+
+footer{
+    text-align: center;
+}
+
+/* .container-foodlist{
+    background-color: rgb(183, 148, 106);
+} */

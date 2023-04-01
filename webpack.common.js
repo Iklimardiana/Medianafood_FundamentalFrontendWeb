@@ -11,16 +11,26 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
+        exclude: /styles/,
         use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          }
+          'to-string-loader', 
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
         ]
       }
     ]
+  },
+  resolve: {
+    alias: {
+      // Ubah path untuk modul bootstrap
+      bootstrap: "bootstrap/dist/js/bootstrap.bundle.js",
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
