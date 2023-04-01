@@ -13,7 +13,6 @@
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
     "babel-loader": "^9.1.2",
-    "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.2",
     "webpack": "^5.77.0",
@@ -23,7 +22,9 @@
   },
   "dependencies": {
     "bootstrap": "^5.2.3",
+    "css-loader": "^6.7.3",
     "jquery": "^3.6.4",
+    "loader": "^2.1.1",
     "popper.js": "^1.16.1"
   }
 }
