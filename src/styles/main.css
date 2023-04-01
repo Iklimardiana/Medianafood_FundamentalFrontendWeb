@@ -1,0 +1,22 @@
+body{
+    background-color: #FFFBEB;
+    margin: 0;
+}
+
+header{
+    background-color: #495579;
+    text-align: center;
+    color: #FFFBEB;
+}
+
+footer{
+    background-color: #ececec;
+    text-align: center;
+    color: #535353;
+}
+
+.btn-dark{
+    background-color: #495579;
+    color: #FFFBEB;
+    border: none;
+}
