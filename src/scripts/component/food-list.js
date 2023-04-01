@@ -22,8 +22,7 @@ class FoodList extends HTMLElement {
     }
 
     render() {
-        if (this._food && this._food.length > 0) {
-            this.innerHTML = '';
+        this.innerHTML = '';
             const numCols = 4;
             let row = document.createElement('div');
             row.classList.add('row');
@@ -58,6 +57,14 @@ class FoodList extends HTMLElement {
                             flex-direction: column;
                             justify-content: space-between;
                             height: 100%;
+                            transition: transform 0.2s ease-out;
+                            background-color: #495579;
+                            color: #FFFBEB;
+                        }
+
+                        .btn-light{
+                            background-color: #FFFBEB;
+                            color: #495579;
                         }
                         
                     </style>
@@ -67,14 +74,27 @@ class FoodList extends HTMLElement {
                             <img src="${food.strMealThumb}" class="card-img-top" alt="${food.strMeal}">
                             <div class="card-body">
                                 <h5 class="card-title">${food.strMeal}</h5>
-                                <button data-id="${food.idMeal}" class="btn btn-dark detail-btn">Detail</button>
+                                <button data-id="${food.idMeal}" class="btn btn-light fw-semibold detail-btn">Detail</button>
                             </div>
                         </div>
                     </div>
                 `;
                 row.innerHTML += foodItem;
+
+                  
             });
             this.appendChild(row);
+
+            $(".card").hide();
+            $(".card").fadeIn(1000);
+            $('.card').hover(
+                function() {
+                    $(this).css('transform', 'scale(1.06)');
+                },
+                function() {
+                    $(this).css('transform', 'scale(1)');
+                }
+            );
 
 
             const FoodListElement = document.querySelector('food-list');
@@ -103,9 +123,6 @@ class FoodList extends HTMLElement {
                     detailFood(mealId);
                 });
             });
-        } else {
-            fallbackResult('No food data found');
-        }
         
     }
       

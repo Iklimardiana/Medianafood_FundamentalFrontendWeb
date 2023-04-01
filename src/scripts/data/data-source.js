@@ -33,7 +33,7 @@ class DataSource{
     };
 
     static getDefaultFoods() {
-      return fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=be')
+      return fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=ch')
         .then(response => response.json())
         .then(responseJson => {
           if (responseJson.error) {

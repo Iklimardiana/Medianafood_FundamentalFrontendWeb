@@ -5,6 +5,9 @@ import main from './scripts/main';
 import './styles/main.css';
 
 import 'jquery';
+window.jQuery = $;
+window.$ = $;
+
 
 import 'bootstrap';
 main();

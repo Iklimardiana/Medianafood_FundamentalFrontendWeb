@@ -38,13 +38,22 @@ class FoodDetail extends HTMLElement{
                 .card-title{
                     text-align: center;
                 }
+
+                .container{
+                    background-color: #495579;
+                    color: #FFFBEB;
+                }
+
+                .img-fluid{
+                    border: solid 1.5px #FFFBEB;
+                }
             
             </style>
 
-            <div class="container bg-light p-4 rounded" >
+            <div class="container p-4 rounded" >
               <div class="row">
                 <div class="col-md-6 col-lg-4">
-                  <img class="img-fluid" src="${this._food.strMealThumb}" alt="${this._food.strMeal}">
+                  <img class="img-fluid rounded shadow" src="${this._food.strMealThumb}" alt="${this._food.strMeal}">
                 </div>
                 <div class="col-md-6 col-sm-12 col-lg-8">
                   <h1 class="card-title">${this._food.strMeal}</h1>
@@ -54,10 +63,13 @@ class FoodDetail extends HTMLElement{
                 </div>
               </div>
               <div class="button-container mt-4">
-                <button class="btn btn-dark mb-4" id="back-btn">Back</button>
+                <button class="btn btn-light fw-semibold mb-4" id="back-btn">Back</button>
               </div>
             </div>
             `;
+
+            $(".container").hide();
+            $(".container").fadeIn(1000);
 
             const DetailFoodElement = document.querySelector('food-detail');
             const searchContainerElement = document.querySelector('.search-container');

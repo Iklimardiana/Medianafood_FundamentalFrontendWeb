@@ -1,21 +1,20 @@
 body{
-    background-color: antiquewhite;
+    background-color: #FFFBEB;
     margin: 0;
 }
 
-/* .search-container{
-    background-color: aqua;
-} */
-
 .header-nav{
-    background-color: aquamarine;
+    background-color: #495579;
     text-align: center;
+    color: #FFFBEB;
 }
 
 footer{
     text-align: center;
 }
 
-/* .container-foodlist{
-    background-color: rgb(183, 148, 106);
-} */
+.btn-dark{
+    background-color: #495579;
+    color: #FFFBEB;
+    border: none;
+}
