@@ -1,8 +1,8 @@
 'use strict'
 
-import DataSource from './data/data-source.js'
-import './component/food-list.js';
-import './component/food-detail.js';
+import DataSource from '../data/data-source.js'
+import '../components/food-list.js';
+import '../components/food-detail.js';
 
 
 function main() {

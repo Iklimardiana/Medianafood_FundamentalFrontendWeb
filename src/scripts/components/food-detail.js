@@ -67,7 +67,7 @@ class FoodDetail extends HTMLElement{
             
             </style>
 
-            <div class="container py-1 px-4 rounded" >
+            <div class="container py-1 px-4 mt-4 rounded" >
               <div class="row">
                 <h2 class="card-title mb-2" id="title">${this._food.strMeal}</h2>
                 <img class="img-fluid rounded shadow mb-2" src="${this._food.strMealThumb}" alt="${this._food.strMeal}">

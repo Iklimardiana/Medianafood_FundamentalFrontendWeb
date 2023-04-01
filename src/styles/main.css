@@ -10,7 +10,9 @@ header{
 }
 
 footer{
+    background-color: #ececec;
     text-align: center;
+    color: #535353;
 }
 
 .btn-dark{
