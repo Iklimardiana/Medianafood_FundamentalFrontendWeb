@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-// const { SourceMapDevToolPlugin } = require("webpack");
  
 module.exports = {
   entry: './src/app.js',
@@ -38,9 +37,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
-    }),
-    // new SourceMapDevToolPlugin({
-    //   filename: "bootstrap.new.esm.js.map"
-    // }),
+    })
   ]
 }
